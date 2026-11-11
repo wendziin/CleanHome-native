@@ -30,9 +30,11 @@ STAGE="$OUT/stage"
 mkdir -p "$CACHE/src" "$OUT"
 
 baixar_tar() { # url ext
-  local d="$CACHE/src/$(basename "$1" ".$2")"
+  local nome d
+  nome=$(basename "$1")
+  d="$CACHE/src/${nome%.tar.*}"
   if [ -d "$d" ]; then return; fi
-  echo "[deps] $(basename "$1")"
+  echo "[deps] $nome"
   curl -fsSL "$1" | tar "x$2" -C "$CACHE/src"
 }
 
@@ -55,8 +57,10 @@ docker build -q -t "$IMAGE" tools/tpk
 
 if [ ! -f "$CACHE/prefix/lib/libSDL2_ttf.a" ]; then
   echo "[deps] SDL2/SDL2_image/SDL2_ttf/FreeType estaticos (primeira vez)"
+  # deps.sh vive no repo, nao no cache: monta tools/tpk so para leitura.
   docker run --rm --platform linux/arm/v5 \
-    -v "$CACHE:/w" "$IMAGE" bash /w/deps.sh
+    -v "$CACHE:/w" -v "$PWD/tools/tpk:/tools/tpk:ro" "$IMAGE" \
+    bash /tools/tpk/deps.sh
 fi
 
 echo "[build] compilando contra o sysroot Tizen 6.0"
