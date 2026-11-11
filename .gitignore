@@ -1,0 +1,11 @@
+# build desktop
+cleanhome-desktop
+*.o
+src/*.o
+
+# artefatos do TPK (gerados por tools/tpk.sh)
+build/
+*.tpk
+
+# res/assets e copia de assets/ (make tizen-assets)
+res/assets/

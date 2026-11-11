@@ -1,0 +1,43 @@
+name: build-tpk
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/**'
+      - 'assets/**'
+      - 'shared/**'
+      - 'tizen-manifest.xml'
+      - 'tools/**'
+      - '.github/workflows/build-tpk.yml'
+
+jobs:
+  tpk:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU (imagem armel)
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm
+
+      - name: Cache rootstrap Tizen 6.0 e fontes
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/cleanhome-tpk
+          key: cleanhome-tpk-deps-v1
+
+      - name: Build TPK
+        run: bash tools/tpk.sh
+
+      - name: Upload TPK
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanhome-tpk
+          path: |
+            build/tpk/cleanhome-*.tpk
+            build/tpk/stage/tizen-manifest.xml
+            build/tpk/bin/cleanhome
+          if-no-files-found: error

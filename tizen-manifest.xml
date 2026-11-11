@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns="http://tizen.org/ns/packages" api-version="6"
+          package="com.cleanhome.native" version="0.1.0">
+    <profile name="tv" />
+    <ui-application appid="com.cleanhome.native" exec="cleanhome"
+                    type="capp" multiple="false" taskmanage="true"
+                    nodisplay="false" launch_mode="single">
+        <label>CleanHome</label>
+        <icon>icon.png</icon>
+    </ui-application>
+    <privileges>
+        <privilege>http://tizen.org/privilege/appmanager.launch</privilege>
+        <privilege>http://tizen.org/privilege/application.info</privilege>
+        <privilege>http://tizen.org/privilege/network.get</privilege>
+        <privilege>http://tizen.org/privilege/internet</privilege>
+    </privileges>
+</manifest>

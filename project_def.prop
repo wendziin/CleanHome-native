@@ -1,0 +1,30 @@
+APPNAME = cleanhome
+type = app
+profile = tv-6.0
+
+USER_SRCS = src/main_tizen.c \
+            src/platform_tizen.c \
+            src/render.c \
+            src/text.c \
+            src/image.c \
+            src/launcher.c \
+            src/config.c
+
+USER_INC_DIRS = src
+USER_DEFS = CLEANHOME_TIZEN
+USER_C_OPTS = -std=c99 -Wall -Wextra -Wno-unused-parameter
+
+USER_PKGS = capi-appfw-application \
+            capi-appfw-app-manager \
+            capi-appfw-app-control \
+            capi-appfw-app-common \
+            dlog \
+            elementary \
+            evas \
+            ecore \
+            ecore-evas \
+            sdl2 \
+            SDL2_image \
+            SDL2_ttf
+
+USER_LIBS = GLESv2 m
