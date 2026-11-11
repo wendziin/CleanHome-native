@@ -2,7 +2,8 @@
 #define CLEANHOME_GLES_H
 
 #ifdef CLEANHOME_TIZEN
-#include <GLES2/gl2.h>
+/* Evas_GL.h ja traz os tipos/enums do GLES2 e recusa ser incluido depois de
+ * GLES2/gl2.h (__gl2_h_ definido). No Tizen, so ele entra. */
 #include <Evas_GL.h>
 
 extern Evas_GL_API *g_evas_gl_api;
