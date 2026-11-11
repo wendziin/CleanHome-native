@@ -40,7 +40,11 @@ for d in "$R"/usr/include/*-1 "$R"/usr/include/*-1/*/ \
   [ -d "$d" ] && INC="$INC -I$d"
 done
 
+# Tizen/EFL headers dependem de feature macros POSIX/XOPEN para expor tipos como
+# pthread_spinlock_t, pthread_barrier_t e siginfo_t. Sem isso o glibc do container
+# esconde essas definicoes quando compilamos com -std=c99.
 CFLAGS="-O2 -fPIC -march=armv7-a -mfloat-abi=softfp -mfpu=neon -std=c99 \
+-D_DEFAULT_SOURCE -D_GNU_SOURCE -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L \
 -Wall -Wextra -Wno-unused-parameter -DCLEANHOME_TIZEN \
 -I/work/src -I$D/include -I$D/include/SDL2 $INC"
 
