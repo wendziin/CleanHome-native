@@ -56,7 +56,7 @@ docker build -q -t "$IMAGE" tools/tpk
 if [ ! -f "$CACHE/prefix/lib/libSDL2_ttf.a" ]; then
   echo "[deps] SDL2/SDL2_image/SDL2_ttf/FreeType estaticos (primeira vez)"
   docker run --rm --platform linux/arm/v5 \
-    -v "$CACHE:/w" "$IMAGE" bash /w/deps.sh
+    -v "$CACHE:/w" -v "$PWD/tools/tpk:/tools/tpk:ro" "$IMAGE" bash /tools/tpk/deps.sh
 fi
 
 echo "[build] compilando contra o sysroot Tizen 6.0"
