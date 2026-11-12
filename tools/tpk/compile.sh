@@ -72,10 +72,15 @@ done
 OBJS=""
 for s in $SRCS; do OBJS="$OBJS $OBJ/$s.o"; done
 
+# O libc/libm padrao vem do container, nao do rootstrap: o libc.so do Tizen e
+# um linker script com caminhos absolutos (/lib/libc.so.6 e
+# /usr/lib/libc_nonshared.a) que nao existem no Debian armel, e o -lc implicito
+# do gcc falharia com "cannot find ... inside /". As libs do Tizen entram por
+# caminho completo e suas dependencias sao achadas por -rpath-link, entao nao
+# se passa -L do rootstrap.
 # shellcheck disable=SC2086
 arm-linux-gnueabi-gcc -o "$OUT/bin/cleanhome" $OBJS \
   -L"$D/lib" -Wl,--start-group -lSDL2_ttf -lSDL2_image -lSDL2 -lfreetype -Wl,--end-group \
-  -L"$R/usr/lib" -L"$R/lib" \
   -Wl,-rpath-link,"$R/usr/lib" -Wl,-rpath-link,"$R/lib" $TI_LIBS \
   -lm -ldl -lpthread -lrt
 
